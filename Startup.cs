@@ -17,28 +17,36 @@ namespace Platform
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MessageOptions>(options =>
-            {
-                options.CityName = "Kananga";
-            });
+            //services.Configure<MessageOptions>(options =>
+            //{
+            //    options.CityName = "Kananga";
+            //});
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
 
-            app.UseMiddleware<LocationMiddleware>();
+            //app.UseMiddleware<LocationMiddleware>();
 
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
+            //app.UseRouting();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapGet("/", async context =>
+            //    {
+            //        await context.Response.WriteAsync("Hello World!");
+            //    });
+            //});
+
+            app.UseDeveloperExceptionPage();
+            app.UseMiddleware<Population>();
+            app.UseMiddleware<Capital>();
+            app.Use(async (context, next) =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                await context.Response.WriteAsync("Terminal Middleware Reached");
             });
 
 
