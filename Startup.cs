@@ -42,8 +42,26 @@ namespace Platform
             //});
 
             app.UseDeveloperExceptionPage();
-            app.UseMiddleware<Population>();
-            app.UseMiddleware<Capital>();
+            //app.UseMiddleware<Population>();
+            //app.UseMiddleware<Capital>();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("{first}/{second}/{third}", async context =>
+                {
+                    await context.Response.WriteAsync("Request was routed\n");
+                    foreach (var kvp in context.Request.RouteValues)
+                    {
+                        await context.Response.WriteAsync($"{kvp.Key} : {kvp.Value}\n");
+
+                    }
+                });
+                endpoints.MapGet("capital/{country}", Capital.Endpoint);
+                endpoints.MapGet("population/{city}", Population.Endpoint);
+            });
+
             app.Use(async (context, next) =>
             {
                 await context.Response.WriteAsync("Terminal Middleware Reached");
